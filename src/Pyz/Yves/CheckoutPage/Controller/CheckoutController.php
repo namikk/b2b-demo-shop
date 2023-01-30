@@ -56,6 +56,39 @@ class CheckoutController extends SprykerCheckoutController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Spryker\Yves\Kernel\View\View
      */
+    public function orderNameAction(Request $request)
+    {
+        $quoteValidationResponseTransfer = $this->canPyzProceedCheckout();
+
+        if (!$quoteValidationResponseTransfer->getIsSuccessful()) {
+            $this->processPyzErrorMessages($quoteValidationResponseTransfer->getMessages());
+
+            return $this->redirectResponseInternal(static::ROUTE_CART);
+        }
+
+        $response = $this->getFactory()->createCheckoutProcess()->process(
+            $request,
+            $this->getFactory()
+                ->createPyzCheckoutFormFactory()
+                ->createOrderNameFormCollection(),
+        );
+
+        if (!is_array($response)) {
+            return $response;
+        }
+
+        return $this->view(
+            $response,
+            [],
+            '@CheckoutPage/views/order-name/order-name.twig',
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Spryker\Yves\Kernel\View\View
+     */
     public function addressAction(Request $request)
     {
         $quoteValidationResponseTransfer = $this->canPyzProceedCheckout();

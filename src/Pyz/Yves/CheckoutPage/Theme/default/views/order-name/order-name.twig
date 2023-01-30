@@ -1,0 +1,26 @@
+{% extends template('page-layout-checkout', 'CheckoutPage') %}
+
+{% define data = {
+    backUrl: '/cart',
+    form: _view.orderNameForm
+} %}
+
+{% block containerClass %}container--small{% endblock %}
+
+{% block content %}
+    <div class="grid">
+        <div class="col col--sm-12 col--lg-6">
+            <div class="box">
+                {% include molecule('form') with {
+                    class: 'js-order-name',
+                    data: {
+                        form: data.form,
+                        submit: {
+                            enable: true
+                        }
+                    }
+                } only %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

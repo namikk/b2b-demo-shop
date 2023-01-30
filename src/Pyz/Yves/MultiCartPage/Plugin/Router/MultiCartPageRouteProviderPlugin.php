@@ -18,6 +18,11 @@ class MultiCartPageRouteProviderPlugin extends SprykerMultiCartPageRouteProvider
     public const PYZ_ROUTE_MULTI_CART_SET_DEFAULT_BACK = 'multi-cart/set-default-back';
 
     /**
+     * @var string
+     */
+    public const ROUTE_NAME_CHECKOUT_ORDER_NAME = 'checkout-order-name';
+
+    /**
      * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
      *
      * @return \Spryker\Yves\Router\Route\RouteCollection
@@ -26,6 +31,7 @@ class MultiCartPageRouteProviderPlugin extends SprykerMultiCartPageRouteProvider
     {
         $routeCollection = parent::addRoutes($routeCollection);
         $routeCollection = $this->addMultiCartSetDefaultBackRoute($routeCollection);
+        $routeCollection = $this->addOrderNameStepRoute($routeCollection);
 
         return $routeCollection;
     }
@@ -40,6 +46,20 @@ class MultiCartPageRouteProviderPlugin extends SprykerMultiCartPageRouteProvider
         $route = $this->buildRoute('/set-default-back/{idQuote}', 'MultiCartPage', 'MultiCart', 'setPyzDefaultBack');
         $route = $route->setRequirement(static::PARAM_ID_QUOTE, '\d+');
         $routeCollection->add(static::PYZ_ROUTE_MULTI_CART_SET_DEFAULT_BACK, $route);
+
+        return $routeCollection;
+    }
+
+    /**
+     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
+     *
+     * @return \Spryker\Yves\Router\Route\RouteCollection
+     */
+    protected function addOrderNameStepRoute(RouteCollection $routeCollection): RouteCollection
+    {
+        $route = $this->buildRoute('/checkout/order-name', 'CheckoutPage', 'Checkout', 'orderNameAction');
+        $route = $route->setMethods(['GET', 'POST']);
+        $routeCollection->add(static::ROUTE_NAME_CHECKOUT_ORDER_NAME, $route);
 
         return $routeCollection;
     }
