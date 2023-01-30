@@ -1,9 +1,10 @@
 ## TODOs:
-- frontend shop: modify checkout process step engine
-- - add new OrderNameStep before AddressStep
-- - add order name form + validation
+- [x] frontend shop: modify checkout process step engine
+- - [x] add new OrderNameStep before AddressStep
+- - [x] add order name form + validation
+- - convert hardcoded messages and label to glossary entries
 - backend shop:
-- - extend quote transfer with orderName property
+- - [x] extend quote transfer with orderName property
 - - extend spy_sales_order db schema with order_name column
 - - ensure form field <-> quote transfer <-> spy_sales_order mapping works as expected
 - backoffice ui:
