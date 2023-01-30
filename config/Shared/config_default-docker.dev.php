@@ -13,6 +13,7 @@ use Spryker\Shared\ErrorHandler\ErrorRenderer\WebHtmlErrorRenderer;
 use Spryker\Shared\Event\EventConstants;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Shared\Kernel\KernelConstants;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Log\LogConstants;
 use Spryker\Shared\MessageBroker\MessageBrokerConstants;
 use Spryker\Shared\MessageBrokerAws\MessageBrokerAwsConstants;
@@ -26,6 +27,7 @@ use Spryker\Shared\Queue\QueueConstants;
 use Spryker\Shared\Router\RouterConstants;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\Testify\TestifyConstants;
+use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Shared\WebProfiler\WebProfilerConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Spryker\Zed\MessageBrokerAws\MessageBrokerAwsConfig;
@@ -34,6 +36,7 @@ use SprykerShop\Shared\CalculationPage\CalculationPageConstants;
 use SprykerShop\Shared\ErrorPage\ErrorPageConstants;
 use SprykerShop\Shared\ShopApplication\ShopApplicationConstants;
 use SprykerShop\Shared\WebProfilerWidget\WebProfilerWidgetConstants;
+use Twig\Cache\FilesystemCache;
 
 // ############################################################################
 // ############################## DEVELOPMENT CONFIGURATION ###################
@@ -130,6 +133,36 @@ if (!getenv('SPRYKER_SSL_ENABLE')) {
             $yvesHost,
             $yvesPort !== 80 ? ':' . $yvesPort : '',
         );
+
+// ----------------------------------------------------------------------------
+// ------------------------------ Twig -----------------------------------------
+// ----------------------------------------------------------------------------
+
+    $CURRENT_STORE = Store::getInstance()->getStoreName();
+
+    $config[TwigConstants::ZED_TWIG_OPTIONS] = [
+        'cache' => new FilesystemCache(
+            sprintf(
+                '%s/data/%s/cache/Zed/twig',
+                APPLICATION_ROOT_DIR,
+                $CURRENT_STORE,
+            ),
+            FilesystemCache::FORCE_BYTECODE_INVALIDATION,
+        ),
+        'auto_reload' => true,
+    ];
+
+    $config[TwigConstants::YVES_TWIG_OPTIONS] = [
+        'cache' => new FilesystemCache(
+            sprintf(
+                '%s/data/%s/cache/Yves/twig',
+                APPLICATION_ROOT_DIR,
+                $CURRENT_STORE,
+            ),
+            FilesystemCache::FORCE_BYTECODE_INVALIDATION,
+        ),
+        'auto_reload' => true,
+    ];
 
 // ----------------------------------------------------------------------------
 // ------------------------------ API -----------------------------------------
