@@ -5,8 +5,10 @@
 - - convert hardcoded messages and label to glossary entries
 - backend shop:
 - - [x] extend quote transfer with orderName property
-- - extend spy_sales_order db schema with order_name column
-- - ensure form field <-> quote transfer <-> spy_sales_order mapping works as expected
+- - [x] extend spy_sales_order db schema with order_name column
+- - [x] ensure form field <-> quote transfer <-> spy_sales_order mapping works as expected
+- - [x] add order name backend validation instead of trusting frontend
+- - refactor VALIDATION_PATTERN_ORDER_NAME and OrderNameOrderExpanderPreSavePlugin to comply with Spryker SOLID convention
 - backoffice ui:
 - - extend OrdersTable with new order name -> add a SalesTablePlugin
 

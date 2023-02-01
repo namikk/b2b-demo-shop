@@ -24,6 +24,9 @@ class OrderNameForm extends AbstractType
     protected const FIELD_ORDER_NAME = QuoteTransfer::ORDER_NAME;
     public const LABEL_ORDER_NAME = 'Order Name:';
 
+    //@todo move to shared config so that it can be used for backend validation as well
+    public const VALIDATION_PATTERN_ORDER_NAME = '/^[a-z0-9]*$/';
+
     public function getBlockPrefix(): string
     {
         return 'orderNameForm';
@@ -43,7 +46,7 @@ class OrderNameForm extends AbstractType
                 new NotBlank(),
                 new Length(['max' => 100]),
                 new Regex([
-                    'pattern' => '/^[a-z0-9]*$/',
+                    'pattern' => static::VALIDATION_PATTERN_ORDER_NAME,
                     'message' => 'Order name can only contain lower case letters a-z and digits 0-9.',
                 ])
             ],
